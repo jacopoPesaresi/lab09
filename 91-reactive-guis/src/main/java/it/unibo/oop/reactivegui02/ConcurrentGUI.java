@@ -40,13 +40,11 @@ public final class ConcurrentGUI extends JFrame {
         this.getContentPane().add(panel);
         this.setVisible(true);
         /*
-         * Create the counter agent and start it. This is actually not so good:
-         * thread management should be left to
-         * java.util.concurrent.ExecutorService
+         * Create the counter agent and start it. 
          */
         new Thread(agent).start();
         /*
-         * Register a listener that stops it
+         * Handlers
          */
         up.addActionListener((e) -> agent.setIncrement(true));
         down.addActionListener((e) -> agent.setIncrement(false));
@@ -91,6 +89,13 @@ public final class ConcurrentGUI extends JFrame {
             }
         }
 
+        /**
+         * External switch to change the sense of increase.
+         * @param status
+         *  pass:
+         *      "true" to increase the value;
+         *      "false" to decrease the value.
+         */
         public void setIncrement(final boolean status) {
             this.increment = status;
         }

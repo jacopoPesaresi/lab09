@@ -1,12 +1,8 @@
 package it.unibo.oop.reactivegui03;
 
-
 import java.awt.Dimension;
 import java.awt.Toolkit;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
-//import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,9 +18,9 @@ public final class AnotherConcurrentGUI extends JFrame {
     private static final double WIDTH_PERC = 0.3;
     private static final double HEIGHT_PERC = 0.125;
     private final JLabel display = new JLabel();
-    private final JButton up = new JButton("up");
-    private final JButton down = new JButton("down");
-    private final JButton stop = new JButton("stop");
+    private static final JButton UP = new JButton("up");
+    private static final JButton DOWN = new JButton("down");
+    private static final JButton STOP = new JButton("stop");
 
     /**
      * 
@@ -37,33 +33,34 @@ public final class AnotherConcurrentGUI extends JFrame {
 
         final JPanel panel = new JPanel();
         panel.add(display);
-        panel.add(up);
-        panel.add(down);
-        panel.add(stop);
+        panel.add(UP);
+        panel.add(DOWN);
+        panel.add(STOP);
         this.getContentPane().add(panel);
         this.setVisible(true);
         /*
-         * Create the counter agent and start it. This is actually not so good:
-         * thread management should be left to
-         * java.util.concurrent.ExecutorService
+         * Create the counter agent and start it.
          */
         final Agent myAgent = new Agent();
-        //final AgentController aContr = new AgentController(myAgent);
-        //new Thread(new AgentController(myAgent)).start();
         new Thread(myAgent).start();
-        //final AgentStopper myStopper = new AgentStopper(myAgent);
-        //new Thread(myStopper).start();
         /*
          * Register a listener that stops it
          */
-        up.addActionListener((e) -> myAgent.setIncrement(true));
-        down.addActionListener((e) -> myAgent.setIncrement(false));
-        stop.addActionListener((e) -> {
+        UP.addActionListener((e) -> myAgent.setIncrement(true));
+        DOWN.addActionListener((e) -> myAgent.setIncrement(false));
+        STOP.addActionListener((e) -> {
             myAgent.stopCounting();
-            up.setEnabled(false);
-            down.setEnabled(false);
-            stop.setEnabled(false);
+            AnotherConcurrentGUI.unsetAllButtons();
         });
+    }
+
+    /**
+     * Little class' util to unset the "enalble" of all buttons.
+     */
+    public static void unsetAllButtons() {
+        UP.setEnabled(false);
+        DOWN.setEnabled(false);
+        STOP.setEnabled(false);
     }
 
     /*
@@ -80,8 +77,8 @@ public final class AnotherConcurrentGUI extends JFrame {
         public void run() {
             final AgentStopper stopper = new AgentStopper();
             new Thread(stopper).start();
-            final long a = System.currentTimeMillis();
-            while (!this.stopGate && !stopper.aStop) { //&& !stopper.aStop) {
+            //final long passedTime = System.currentTimeMillis();
+            while (!this.stopGate && !stopper.aStop) {
                 try {
                     // The EDT doesn't access `counter` anymore, it doesn't need to be volatile 
                     final var nextText = Integer.toString(this.counter);
@@ -100,14 +97,11 @@ public final class AnotherConcurrentGUI extends JFrame {
                     ex.printStackTrace();  //NOPMD
                 }
             }
-            System.out.println("\n\n### " + (System.currentTimeMillis() - a) + "###\n\n"); //NOPMD
-            up.setEnabled(false);
-            down.setEnabled(false);
-            stop.setEnabled(false);
+            //System.out.println("\n### " + (System.currentTimeMillis() - passedTime) + "###\n");  //NOPMD
+            AnotherConcurrentGUI.unsetAllButtons();
         }
 
         /**
-         * 
          * @param status boolean value to set the way that counter 
          * value grow
          */
@@ -123,26 +117,6 @@ public final class AnotherConcurrentGUI extends JFrame {
         }
     }
 
-    /*
-    private static class AgentController implements Runnable {
-        private final Agent toStop;
-        private static final long TOWAIT = 10_000L;
-
-        AgentController(final Agent toControl) {
-            this.toStop = toControl;
-            new Thread(toControl).start();
-        }
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(TOWAIT);
-                toStop.stopCounting();
-            } catch (InterruptedException e) {
-                e.printStackTrace(); //NOPMD it's an esercice
-            }
-        }
-    }
-    */
     private static class AgentStopper implements Runnable {
         private static final long TOWAIT = 100L;
         private boolean aStop;
@@ -153,7 +127,8 @@ public final class AnotherConcurrentGUI extends JFrame {
             try {
                 while (!aStop) {
                     index++;
-                    checkDeth();
+                    checkDeath();
+                    //this.wait(1000);
                     Thread.sleep(100);
                 }
             } catch (InterruptedException e) {
@@ -164,7 +139,7 @@ public final class AnotherConcurrentGUI extends JFrame {
         /**
          * 
          */
-        public void checkDeth() {
+        public void checkDeath() {
             if (index == TOWAIT) {
                 aStop = true;
             }
