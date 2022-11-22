@@ -118,8 +118,9 @@ public final class AnotherConcurrentGUI extends JFrame {
     }
 
     private static class AgentStopper implements Runnable {
-        private static final long TOWAIT = 100L;
-        private boolean aStop;
+        private static final long TOWAIT = 400L;
+        private static final long TOSLEEP = 10_000L / TOWAIT;
+        private volatile boolean aStop;
         private long index;
 
         @Override
@@ -128,8 +129,7 @@ public final class AnotherConcurrentGUI extends JFrame {
                 while (!aStop) {
                     index++;
                     checkDeath();
-                    //this.wait(1000);
-                    Thread.sleep(100);
+                    Thread.sleep(TOSLEEP);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace(); //NOPMD it's an esercice
