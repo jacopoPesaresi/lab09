@@ -1,7 +1,7 @@
 package it.unibo.oop.workers01;
 
-import java.util.List;
 import java.util.stream.IntStream;
+import java.util.List;
 
 /**
  * This is an implementation using streams.
@@ -9,15 +9,14 @@ import java.util.stream.IntStream;
  */
 public final class MultiThreadedListSumWithStreams implements SumList {
 
-    private final int nthread;
+    private final int nOfThread;
 
     /**
-     * 
      * @param nthread
      *            no. of thread performing the sum.
      */
     public MultiThreadedListSumWithStreams(final int nthread) {
-        this.nthread = nthread;
+        this.nOfThread = nthread;
     }
 
     private static class Worker extends Thread {
@@ -38,14 +37,14 @@ public final class MultiThreadedListSumWithStreams implements SumList {
          */
         Worker(final List<Integer> list, final int startpos, final int nelem) {
             super();
-            this.list = list;
-            this.startpos = startpos;
             this.nelem = nelem;
+            this.startpos = startpos;
+            this.list = list;
         }
 
         @Override
         public void run() {
-            System.out.println("Working from position " + startpos + " to position " + (startpos + nelem - 1));
+            System.out.println("Working from position " + startpos + " to position " + (startpos + nelem - 1)); //NOPMD
             for (int i = startpos; i < list.size() && i < startpos + nelem; i++) {
                 this.res += this.list.get(i);
             }
@@ -64,13 +63,13 @@ public final class MultiThreadedListSumWithStreams implements SumList {
 
     @Override
     public long sum(final List<Integer> list) {
-        final int size = list.size() % nthread + list.size() / nthread;
+        final int size = list.size() % nOfThread + list.size() / nOfThread;
         /*
          * Build a stream of workers
          */
         return IntStream
                 .iterate(0, start -> start + size)
-                .limit(nthread)
+                .limit(nOfThread)
                 .mapToObj(start -> new Worker(list, start, size))
                 // Start them
                 .peek(Thread::start)
@@ -88,7 +87,7 @@ public final class MultiThreadedListSumWithStreams implements SumList {
                 target.join();
                 joined = true;
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                e.printStackTrace(); //NOPMD
             }
         }
     }

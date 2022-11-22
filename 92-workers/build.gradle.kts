@@ -1,12 +1,14 @@
 plugins {
     java
     application
+     id("org.danilopianini.gradle-java-qa") version "0.40.0" //added
 }
 
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenCentral() //added
 }
 
 dependencies {

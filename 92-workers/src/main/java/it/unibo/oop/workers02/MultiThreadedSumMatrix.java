@@ -34,15 +34,15 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
          * Build a new worker.
          * 
          * @param matrix
-         *            the list to sum
+         *            the matrix of value to sum
          * @param startRow
          *            the initial position for this worker
-         * @param finRow
-         *            the no. of elems to sum up for this worker
+         * @param amountWork
+         *            the amount of rows that this worker have to sum
          */
         Worker(final double[][] matrix, final int startRow, final int amountWork) {
             super();
-            this.matrix = matrix;
+            this.matrix = matrix.clone();
             this.startRow = startRow;
             this.amountWork = amountWork;
         }

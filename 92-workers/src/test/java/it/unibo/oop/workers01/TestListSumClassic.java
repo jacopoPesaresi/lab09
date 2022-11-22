@@ -11,7 +11,7 @@ import java.util.List;
  * TestMatrix for worker 1.
  *
  */
-public class TestListSumClassic {
+class TestListSumClassic {
 
     /**
      * SumList and its multithreaded implementation are given as reference
@@ -27,7 +27,7 @@ public class TestListSumClassic {
      * Base test for a multithreaded list sum.
      */
     @Test
-    public void testBasic() {
+    void testBasic() {
         /*
          * Initialize a list
          */
@@ -37,7 +37,7 @@ public class TestListSumClassic {
             list.add(i);
             sum += i;
         }
-        System.out.println("BTW: the sum with " + SIZE + " elements is: " + sum);
+        System.out.println("BTW: the sum with " + SIZE + " elements is: " + sum); //NOPMD
         /*
          * Prepare time ant test with different number of threads
          */
@@ -46,8 +46,8 @@ public class TestListSumClassic {
             final SumList sumList = new MultiThreadedListSumClassic(threads);
             time = System.currentTimeMillis();
             assertEquals(sum, sumList.sum(list));
-            System.out.println("Tried with " + threads + " thread: "
-                    + (System.currentTimeMillis() - time) + MSEC);
+            System.out.println("Tried with " + threads + " thread: " //NOPMD
+                    + (System.currentTimeMillis() - time) + MSEC);  //NOPMD
         }
     }
 

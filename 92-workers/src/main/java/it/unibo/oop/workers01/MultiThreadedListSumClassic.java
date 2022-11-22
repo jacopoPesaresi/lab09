@@ -24,7 +24,7 @@ public final class MultiThreadedListSumClassic implements SumList {
         private final List<Integer> list;
         private final int startpos;
         private final int nelem;
-        private long res;
+        private long result;
 
         /**
          * Build a new worker.
@@ -45,26 +45,25 @@ public final class MultiThreadedListSumClassic implements SumList {
 
         @Override
         public void run() {
-            System.out.println("Working from position " + startpos + " to position " + (startpos + nelem - 1));
-            for (int i = startpos; i < list.size() && i < startpos + nelem; i++) {
-                this.res += this.list.get(i);
+            System.out.println("Working from position " + startpos + " to position " + (startpos + nelem - 1)); //NOPMD
+            for (int i = startpos; i < startpos + nelem && i < list.size(); i++) {
+                this.result += this.list.get(i);
             }
         }
 
         /**
          * Returns the result of summing up the integers within the list.
-         * 
          * @return the sum of every element in the array
          */
         public long getResult() {
-            return this.res;
+            return this.result;
         }
 
     }
 
     @Override
     public long sum(final List<Integer> list) {
-        final int size = list.size() % nthread + list.size() / nthread;
+        final int size = list.size() / nthread + list.size() % nthread;
         /*
          * Build a list of workers
          */

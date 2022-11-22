@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
  * TestMatrix for worker 1.
  *
  */
-public class TestListSumWithStreams {
+class TestListSumWithStreams {
 
     /**
      * SumList and its multithreaded implementation are given as reference
@@ -28,7 +28,7 @@ public class TestListSumWithStreams {
      * Base test for a multithreaded list sum.
      */
     @Test
-    public void testBasic() {
+    void testBasic() {
         final List<Integer> list = IntStream
                 .iterate(0, i -> i + 1)
                 .limit(SIZE)
@@ -38,7 +38,7 @@ public class TestListSumWithStreams {
                 .stream()
                 .mapToLong(Integer::longValue)
                 .sum();
-        System.out.println("BTW: the sum with " + SIZE + " elements is: " + sum);
+        System.out.println("BTW: the sum with " + SIZE + " elements is: " + sum); //NOPMD
         /*
          * Prepare time ant test with different number of threads
          */
@@ -47,8 +47,8 @@ public class TestListSumWithStreams {
             final SumList sumList = new MultiThreadedListSumWithStreams(threads);
             time = System.currentTimeMillis();
             assertEquals(sum, sumList.sum(list));
-            System.out.println("Tried with " + threads + " thread: "
-                    + (System.currentTimeMillis() - time) + MSEC);
+            System.out.println("Tried with " + threads + " thread: " //NOPMD
+                    + (System.currentTimeMillis() - time) + MSEC); //NOPMD
         }
     }
 
