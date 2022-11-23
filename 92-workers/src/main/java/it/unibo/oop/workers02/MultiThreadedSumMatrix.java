@@ -3,9 +3,6 @@ package it.unibo.oop.workers02;
 import java.util.ArrayList;
 import java.util.List;
 
-//import java.util.List;
-//import java.util.stream.DoubleStream;
-
 /**
  * 
  */
@@ -14,7 +11,6 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
     private final int usedThread;
 
     /**
-     * 
      * @param nThreads
      */
     public MultiThreadedSumMatrix(final int nThreads) {
@@ -70,48 +66,8 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
 
     }
 
-
-
-
     @Override
     public double sum(final double[][] matrix) {
-        /*****
-        //final int size = list.size() % usedThread + list.size() / usedThread;
-        final int amountWork = matrix.length / usedThread + 1;
-        double tmp = 0.0;
-        double[] setOfWork = new double[usedThread];
-
-        MyWorker actTh;// = new Agent();
-        //final AgentController aContr = new AgentController(myAgent);
-        //new Thread(new AgentController(myAgent)).start();
-        //new Thread(myAgent).start();
-
-        for (int i=0; i < usedThread; i++) {
-            actTh = new MyWorker(matrix, i, amountWork);
-            actTh.start();
-            setOfWork[i] = actTh.getMyResult();
-        }
-        *****/
-
-        /*
-         * Build a stream of workers
-         */
-
-        /*
-        return DoubleStream
-                .iterate(0, start -> start + (matrix[0].length * amountWork))
-                .limit(usedThread)
-                .mapToObj(start -> new MyWorker(matrix, 0, amountWork))
-                // Start them
-                .peek(Thread::start)
-                // Join them
-                .peek(MultiThreadedSumMatrix::joinUninterruptibly)
-                 // Get their result and sum
-                .mapToDouble(MyWorker::getMyResult)
-                .sum();
-        */
-
-        //////return tmp;
         final int amountWork = matrix.length / usedThread + 1;
         /*
          * Build a list of workers
@@ -127,9 +83,7 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
             w.start();
         }
         /*
-         * Wait for every one of them to finish. This operation is _way_ better done by
-         * using barriers and latches, and the whole operation would be better done with
-         * futures.
+         * Wait for every one of them to finish. 
          */
         double sum = 0;
         for (final Worker w: workers) {
@@ -145,22 +99,4 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
          */
         return sum;
     }
-
-    /**
-     * 
-     * @param target
-     */
-    /*
-    private static void joinUninterruptibly(final Thread target) {
-        var joined = false;
-        while (!joined) {
-            try {
-                target.join();
-                joined = true;
-            } catch (InterruptedException e) {
-                e.printStackTrace(); //NOPMD
-            }
-        }
-    }
-    */
 }

@@ -4,7 +4,7 @@ CLONE ###
 
 BRANCH exercises
 
-CASA 81-bad-gui-io
+CASA 91-reactive-guis
 (ConcurrentGUI (91.02))
 Mantenuti i buttons come campi dell'oggetto ConcurrentGUI
 Per cambiare il senso di incremento, ho preferito dichiarare un unico metodo che accettasse un valore booleano
@@ -18,5 +18,5 @@ C'è modo di dire a un thread che l'altro è terminato (escluso join, intendo qu
 Perchè la mia soluzione è stata quella di gestire il cambio di un valore booleano nel terzo thread e da quel valore capire quando sono passati 10 sec
 Ma non c'è qualcosa del tipo "appena lui è finito (morto), interrompi questo processo" (supponendo che ciò sia scritto nel secondo thread)
 
-CASA 82-simple-mvc-io
+CASA 92-workers
 
