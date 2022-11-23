@@ -1,6 +1,6 @@
-URL ###
+URL https://github.com/jacopoPesaresi/lab09.git
 
-CLONE ###
+CLONE git@github.com:jacopoPesaresi/lab09.git
 
 BRANCH exercises
 
@@ -8,7 +8,7 @@ CASA 91-reactive-guis
 (ConcurrentGUI (91.02))
 Mantenuti i buttons come campi dell'oggetto ConcurrentGUI
 Per cambiare il senso di incremento, ho preferito dichiarare un unico metodo che accettasse un valore booleano
-tale valore è poi sfruttato da un if (ma effettivamente si poteva usare una espressione condizionale)
+tale valore è poi sfruttato da un if nel run dell'Agent (ma effettivamente si poteva usare una espressione condizionale)
 (AnotherConcurrentGUI (91.03))
 Idea di creare un metodo separato per dis-abilitare i pulsanti colta all'ultimo... ma fatta in un metodo statico, anche se il sospetto di farlo in uno non statico c'era (con opportuna aggiunta anche di interropere il processo di counting)
 //mi sono preso il diritto di modificarlo perchè non piaceva (sintatticamente e quindi concettualmente) neanche a me, ma appunto altrimenti non trovavo la soluzione
@@ -19,4 +19,9 @@ Perchè la mia soluzione è stata quella di gestire il cambio di un valore boole
 Ma non c'è qualcosa del tipo "appena lui è finito (morto), interrompi questo processo" (supponendo che ciò sia scritto nel secondo thread)
 
 CASA 92-workers
-
+Non ho previsto un'eccezione se i nthread passati al costruttore sono una quantità < di 1
+Somma dei valori della matrice fatta alla vecchia maniera (no foreach ma tipo sum += matrix[i][j])
+Arbitrariamente suddiviso il lavoro con (totale_lavoro/lavoratori) +1... che ok, con molti lavoratori l'ultimo lavoratore fa poco e niente ma è anche vero che è l'ultimo a essere eseguito (e quindi se a meno lavoro finisce prima mentre gli altri "hanno avuto più tempo" per svolgere i calcoli)
+Nel costruttore dell'agent ho fatto una copia difensiva della matrice
+[Dubbio]
+Non è sempre buona norma fare una copia difensiva? L'avevo fatto anche in altri esercizi con le stringhe e mi sembra più corretto... (sempre nella sezione [Dubbi] delle mie vecchie consegne)
