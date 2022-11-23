@@ -57,7 +57,6 @@ public final class MultiThreadedSumMatrix implements SumMatrix {
 
         /**
          * Returns the result of summing up the integers within the list.
-         * 
          * @return the sum of every element in the array
          */
         public double getMyResult() {
