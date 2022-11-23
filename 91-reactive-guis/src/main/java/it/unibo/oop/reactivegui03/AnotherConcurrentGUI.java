@@ -18,9 +18,9 @@ public final class AnotherConcurrentGUI extends JFrame {
     private static final double WIDTH_PERC = 0.3;
     private static final double HEIGHT_PERC = 0.125;
     private final JLabel display = new JLabel();
-    private static final JButton UP = new JButton("up");
-    private static final JButton DOWN = new JButton("down");
-    private static final JButton STOP = new JButton("stop");
+    private final JButton up = new JButton("up");
+    private final JButton down = new JButton("down");
+    private final JButton stop = new JButton("stop");
 
     /**
      * 
@@ -33,9 +33,9 @@ public final class AnotherConcurrentGUI extends JFrame {
 
         final JPanel panel = new JPanel();
         panel.add(display);
-        panel.add(UP);
-        panel.add(DOWN);
-        panel.add(STOP);
+        panel.add(up);
+        panel.add(down);
+        panel.add(stop);
         this.getContentPane().add(panel);
         this.setVisible(true);
         /*
@@ -46,21 +46,21 @@ public final class AnotherConcurrentGUI extends JFrame {
         /*
          * Register a listener that stops it
          */
-        UP.addActionListener((e) -> myAgent.setIncrement(true));
-        DOWN.addActionListener((e) -> myAgent.setIncrement(false));
-        STOP.addActionListener((e) -> {
+        up.addActionListener((e) -> myAgent.setIncrement(true));
+        down.addActionListener((e) -> myAgent.setIncrement(false));
+        stop.addActionListener((e) -> {
             myAgent.stopCounting();
-            AnotherConcurrentGUI.unsetAllButtons();
+            this.unsetAllButtons();
         });
     }
 
     /**
      * Little class' util to unset the "enalble" of all buttons.
      */
-    public static void unsetAllButtons() {
-        UP.setEnabled(false);
-        DOWN.setEnabled(false);
-        STOP.setEnabled(false);
+    private void unsetAllButtons() {
+        this.up.setEnabled(false);
+        this.down.setEnabled(false);
+        this.stop.setEnabled(false);
     }
 
     /*
@@ -98,7 +98,7 @@ public final class AnotherConcurrentGUI extends JFrame {
                 }
             }
             //System.out.println("\n### " + (System.currentTimeMillis() - passedTime) + "###\n");  //NOPMD
-            AnotherConcurrentGUI.unsetAllButtons();
+            unsetAllButtons();
         }
 
         /**

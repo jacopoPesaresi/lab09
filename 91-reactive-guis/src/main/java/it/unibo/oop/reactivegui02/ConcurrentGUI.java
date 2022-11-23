@@ -93,7 +93,7 @@ public final class ConcurrentGUI extends JFrame {
          * External switch to change the sense of increase.
          * @param status
          *  pass:
-         *      "true" to increase the value;
+         *      "true" to increase the value;.
          *      "false" to decrease the value.
          */
         public void setIncrement(final boolean status) {
